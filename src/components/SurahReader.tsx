@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS, KEYS, TRACK_ORDER, getSettings, saveSettings, setLast
 import { RECORDED, Recitation } from "@/lib/recitation";
 import { quranIndex } from "@/lib/meta";
 import ExplainSheet from "./ExplainSheet";
+import { prefetchTafsir, TAFSIR } from "@/lib/tafsir";
 import { bnNum } from "@/lib/num";
 import { BASE } from "@/lib/base";
 
@@ -176,6 +177,12 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
     if (engine.current?.current) flash("পরের আয়াত থেকে নতুন ভাষায় শোনা যাবে");
   };
 
+  // Start fetching the explanation as soon as a pointer or keyboard reaches the button.
+  const warmExplain = (e: React.SyntheticEvent) => {
+    const k = Number((e.target as HTMLElement).closest('[data-act="explain"]')?.closest<HTMLElement>(".ayah")?.dataset.k);
+    if (k) prefetchTafsir(TAFSIR.plain[getSettings().explainLang], s, [k]);
+  };
+
   const onClick = (e: React.MouseEvent) => {
     const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-act]");
     const ayah = btn?.closest<HTMLElement>(".ayah");
@@ -220,7 +227,7 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
 
   return (
     <>
-      <div ref={box} className="ayahs" onClick={onClick}>
+      <div ref={box} className="ayahs" onClick={onClick} onPointerOver={warmExplain} onFocus={warmExplain}>
         {children}
       </div>
 

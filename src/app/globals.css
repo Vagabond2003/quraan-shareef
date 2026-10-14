@@ -321,7 +321,9 @@ button { font: inherit; color: inherit; }
 .explain-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 20px 8px; }
 .explain-text { display: grid; gap: 0.9em; max-width: 62ch; font-size: calc(1.02rem * var(--tr-scale)); line-height: 1.75; color: var(--ink); }
 .explain-text[lang="bn"] { font-family: var(--f-bn); font-size: calc(1.1rem * var(--tr-scale)); line-height: 1.85; }
-.explain-wait { display: flex; align-items: center; gap: 10px; color: var(--ink-3); padding-block: 24px; }
+/* Held back briefly so a fast load never flashes a loading message. */
+.explain-wait { display: flex; align-items: center; gap: 10px; color: var(--ink-3); padding-block: 24px; animation: wait-in 0.2s ease 0.3s both; }
+@keyframes wait-in { from { opacity: 0; } }
 .explain-wait .brand-star { width: 18px; height: 18px; animation: spin 3s linear infinite; }
 .explain-msg { display: grid; gap: 12px; justify-items: start; color: var(--ink-2); padding-block: 12px; }
 .explain-foot { border-top: 1px solid var(--rule); padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 6px; }

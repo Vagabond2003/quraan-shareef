@@ -27,6 +27,8 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
       - run: npm ci
+      # Tafsir is served with the site; see scripts/fetch-tafsir.mjs.
+      - run: node scripts/fetch-tafsir.mjs
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}

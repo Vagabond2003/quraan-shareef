@@ -8,8 +8,10 @@ import { BASE } from "@/lib/base";
 import "./globals.css";
 
 const amiriQuran = Amiri_Quran({ weight: "400", subsets: ["arabic"], variable: "--font-amiri-quran", display: "swap" });
-const amiri = Amiri({ weight: ["400", "700"], subsets: ["arabic"], variable: "--font-amiri", display: "swap" });
-const tiro = Tiro_Bangla({ weight: "400", subsets: ["bengali"], variable: "--font-tiro-bangla", display: "swap" });
+// Not preloaded: Amiri only draws surah-name headings and Tiro only translations, so they load when a
+// page uses them instead of competing with every first paint (together about 260 KB).
+const amiri = Amiri({ weight: ["400", "700"], subsets: ["arabic"], variable: "--font-amiri", display: "swap", preload: false });
+const tiro = Tiro_Bangla({ weight: "400", subsets: ["bengali"], variable: "--font-tiro-bangla", display: "swap", preload: false });
 const hind = Hind_Siliguri({ weight: ["400", "500", "600"], subsets: ["bengali", "latin"], variable: "--font-hind-siliguri", display: "swap" });
 const schibsted = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-schibsted", display: "swap" });
 

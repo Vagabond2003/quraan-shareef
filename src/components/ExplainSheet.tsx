@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { getTafsir, TAFSIR, type ExplainDepth, type ExplainLang } from "@/lib/tafsir";
+import { getTafsir, prefetchTafsir, TAFSIR, type ExplainDepth, type ExplainLang } from "@/lib/tafsir";
 import { saveSettings, getSettings } from "@/lib/store";
 import { bnNum } from "@/lib/num";
 
@@ -49,13 +49,18 @@ export default function ExplainSheet({ s, k, count, name, arabic, onNavigate, on
     if (k == null) return;
     let live = true;
     getTafsir(src, s, k)
-      .then((text) => live && setResult({ key, text }))
+      .then((text) => {
+        if (live) setResult({ key, text });
+        // Make the next tap instant: neighbouring ayahs, and the other depth for this one.
+        prefetchTafsir(src, s, [k + 1, k + 2, k - 1].filter((n) => n >= 1 && n <= count));
+        prefetchTafsir(TAFSIR[depth === "plain" ? "detail" : "plain"][lang], s, [k]);
+      })
       .catch(() => live && setResult({ key, text: null }));
     body.current?.scrollTo({ top: 0 });
     return () => {
       live = false;
     };
-  }, [src, s, k, key]);
+  }, [src, s, k, key, count, depth, lang]);
 
   const chooseLang = (l: ExplainLang) => {
     setLang(l);
