@@ -4,7 +4,8 @@
 //   node scripts/fetch-quran.mjs --bn <ids>      also bundle Bengali translations (comma-separated)
 //   node scripts/fetch-quran.mjs --en <ids>      choose English translations (default en.sahih,en.yusufali)
 //
-// Arabic: Tanzil Uthmani text (verbatim, attribution required, must not be altered).
+// Arabic: Tanzil Uthmani (`quran-uthmani`) and Simple (`quran-simple`) texts, both verbatim
+// (attribution required, must not be altered). Readers choose the script in settings.
 // English: Saheeh International (the text Ibrahim Walk's recorded audio reads; via Tanzil,
 // non-commercial use with attribution) and Abdullah Yusuf Ali (1934). The first is the default.
 // Bengali: alquran.cloud edition ids, e.g. `bn.bengali,bn.hoque` (Muhiuddin Khan, Zohurul Hoque).
@@ -32,6 +33,7 @@ async function edition(id) {
 }
 
 const ar = await edition("quran-uthmani");
+const simple = await edition("quran-simple");
 const en = [];
 for (const id of enIds) en.push(await edition(id));
 const enEditions = en.map((e, i) => ({ id: enIds[i], name: e.edition.englishName, englishName: e.edition.englishName }));
@@ -41,6 +43,15 @@ const bnEditions = bn.map((e, i) => ({ id: bnIds[i], name: e.edition.name, engli
 
 const clean = (s) => s.replace(/^﻿/, "").trim();
 const bismillah = clean(ar.surahs[0].ayahs[0].text);
+const bismillahSimple = clean(simple.surahs[0].ayahs[0].text);
+// The source prefixes every surah's first ayah with the Bismillah; the app draws it separately.
+// Tanzil's Uthmani text writes it with a shadda on the bā' (بِّسْمِ) in surahs 95 and 97, so accept that spelling too.
+const stripBismillah = (n, i, text, b) => {
+  if (n === 1 || i !== 0) return text;
+  const prefix = [b, b[0] + "\u0651" + b.slice(1)].find((p) => text.startsWith(p));
+  return prefix ? text.slice(prefix.length).trim() : text;
+};
+const stripped = { ar: 0, simple: 0 };
 
 const surahs = [];
 const pages = new Map();
@@ -49,13 +60,19 @@ const juzStart = {};
 for (const s of ar.surahs) {
   const n = s.number;
   const ayahs = s.ayahs.map((a, i) => {
-    let text = clean(a.text);
-    // The source prefixes every surah's first ayah with the Bismillah; the app draws it separately.
-    if (n !== 1 && i === 0 && text.startsWith(bismillah)) text = text.slice(bismillah.length).trim();
+    const sa = simple.surahs[n - 1].ayahs[i];
+    if (sa.number !== a.number) throw new Error(`quran-simple out of step at ${n}:${a.numberInSurah}`);
+    const raw = clean(a.text);
+    const rawSimple = clean(sa.text);
+    const text = stripBismillah(n, i, raw, bismillah);
+    const textSimple = stripBismillah(n, i, rawSimple, bismillahSimple);
+    if (text !== raw) stripped.ar++;
+    if (textSimple !== rawSimple) stripped.simple++;
     const item = {
       k: a.numberInSurah,
       g: a.number,
       ar: text,
+      as: textSimple,
       en: en.map((e) => clean(e.surahs[n - 1].ayahs[i].text)),
       ...(bn.length ? { bn: bn.map((e) => clean(e.surahs[n - 1].ayahs[i].text)) } : {}),
       page: a.page,
@@ -65,7 +82,7 @@ for (const s of ar.surahs) {
     };
     if (!(a.juz in juzStart)) juzStart[a.juz] = { page: a.page, s: n, k: a.numberInSurah };
     if (!pages.has(a.page)) pages.set(a.page, { p: a.page, juz: a.juz, items: [] });
-    pages.get(a.page).items.push({ s: n, k: a.numberInSurah, g: a.number, ar: text, hizbQ: a.hizbQuarter });
+    pages.get(a.page).items.push({ s: n, k: a.numberInSurah, g: a.number, ar: text, as: textSimple, hizbQ: a.hizbQuarter });
     return item;
   });
   surahs.push({
@@ -90,6 +107,8 @@ for (const [p, data] of pages) {
 await mkdir(path.join(root, "src/data"), { recursive: true });
 await writeFile(
   path.join(root, "src/data/index.json"),
-  JSON.stringify({ surahs, juz: juzStart, pageCount: pages.size, bismillah, hasBengali: bn.length > 0, bnEditions, enEditions }, null, 1),
+  JSON.stringify({ surahs, juz: juzStart, pageCount: pages.size, bismillah, bismillahSimple, hasBengali: bn.length > 0, bnEditions, enEditions }, null, 1),
 );
+if (stripped.ar !== stripped.simple) throw new Error(`Bismillah stripped from ${stripped.ar} Uthmani but ${stripped.simple} Simple first ayahs`);
+console.log(`Stripped the Bismillah from ${stripped.ar} first ayahs in both scripts.`);
 console.log(`Wrote ${surahs.length} surahs, ${pages.size} pages, English: ${enEditions.map((e) => e.englishName).join(", ")}, Bengali: ${bnEditions.map((e) => e.englishName).join(", ") || "none"}.`);

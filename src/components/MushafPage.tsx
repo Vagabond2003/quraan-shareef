@@ -4,6 +4,7 @@ import Mosaic from "./Mosaic";
 import AyahMarker from "./AyahMarker";
 import { quranIndex, surahMeta } from "@/lib/meta";
 import { arNum } from "@/lib/num";
+import { DEFAULT_SETTINGS, KEYS, useStored, type Settings } from "@/lib/store";
 import type { PageData, PageItem } from "@/lib/types";
 
 type Segment = { type: "open"; s: number } | { type: "text"; items: PageItem[] };
@@ -24,6 +25,8 @@ export default function MushafPage({ n, data }: { n: number; data?: PageData }) 
   const page = useRef<HTMLDivElement>(null);
   const body = useRef<HTMLDivElement>(null);
   const opening = n <= 2;
+  const script = useStored<Partial<Settings>>(KEYS.settings, {}).script ?? DEFAULT_SETTINGS.script;
+  const simple = script === "simple";
 
   // Shrink the type until the page's text fits its frame, the way a printed mushaf fills each page.
   useLayoutEffect(() => {
@@ -45,7 +48,7 @@ export default function MushafPage({ n, data }: { n: number; data?: PageData }) 
     ro.observe(pg);
     document.fonts?.ready.then(fit);
     return () => ro.disconnect();
-  }, [data, opening]);
+  }, [data, opening, simple]);
 
   if (!data) {
     return (
@@ -76,7 +79,7 @@ export default function MushafPage({ n, data }: { n: number; data?: PageData }) 
                     <span className="ar">{surahMeta(seg.s).ar}</span>
                   </div>
                 </div>
-                {seg.s !== 1 && seg.s !== 9 && <p className="mp-bism ar">{quranIndex.bismillah}</p>}
+                {seg.s !== 1 && seg.s !== 9 && <p className="mp-bism ar">{simple ? quranIndex.bismillahSimple : quranIndex.bismillah}</p>}
               </Fragment>
             ) : (
               <p className="mp-text ar" key={`t${i}`}>
@@ -86,7 +89,7 @@ export default function MushafPage({ n, data }: { n: number; data?: PageData }) 
                     <Fragment key={it.g}>
                       {prev && prev.hizbQ !== it.hizbQ && <span className="hizb" aria-label="হিজবের চতুর্থাংশ">۞ </span>}
                       <span className="mp-ayah" data-s={it.s} data-k={it.k}>
-                        {it.ar}&nbsp;<AyahMarker n={it.k} />
+                        {simple ? it.as : it.ar}&nbsp;<AyahMarker n={it.k} />
                       </span>{" "}
                     </Fragment>
                   );

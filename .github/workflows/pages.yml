@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # Work lands on unmerged feature branches; the latest push to any of them is what's live.
+    branches: [main, "feature/**"]
   workflow_dispatch:
 
 permissions:

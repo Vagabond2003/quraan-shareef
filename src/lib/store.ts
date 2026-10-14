@@ -1,5 +1,6 @@
 "use client";
 import { useSyncExternalStore } from "react";
+import type { ArabicScript } from "./types";
 
 export type LastRead = { s: number; k: number; page: number; mode: "surah" | "mushaf"; at: number };
 export type Bookmark = { s: number; k: number; at: number };
@@ -10,6 +11,8 @@ export const TRACK_ORDER: Track[] = ["ar", "bn", "en"];
 export type Settings = {
   theme: "auto" | "light" | "dark" | "system";
   city: string;
+  /** Arabic script style: Tanzil Uthmani or Tanzil Simple. */
+  script: ArabicScript;
   arScale: number;
   trScale: number;
   showEn: boolean;
@@ -27,6 +30,7 @@ export type Settings = {
 export const DEFAULT_SETTINGS: Settings = {
   theme: "auto",
   city: "",
+  script: "uthmani",
   arScale: 1,
   trScale: 1,
   showEn: true,

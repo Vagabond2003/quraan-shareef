@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Mosaic from "@/components/Mosaic";
 import SurahReader from "@/components/SurahReader";
 import AyahMarker from "@/components/AyahMarker";
+import DualScript from "@/components/DualScript";
 import { getSurahAyahs, index } from "@/lib/quran";
 import { bnNum } from "@/lib/num";
 
@@ -84,7 +85,7 @@ async function Surah({ params }: { params: Promise<{ n: string }> }) {
 
       {num !== 1 && num !== 9 && (
         <p className="bismillah ar" lang="ar">
-          {index.bismillah}
+          <DualScript uthmani={index.bismillah} simple={index.bismillahSimple} />
         </p>
       )}
 
@@ -117,7 +118,7 @@ async function Surah({ params }: { params: Promise<{ n: string }> }) {
               </span>
             </div>
             <p className="ayah-ar ar" lang="ar" dir="rtl">
-              {a.ar}&nbsp;<AyahMarker n={a.k} />
+              <DualScript uthmani={a.ar} simple={a.as} />&nbsp;<AyahMarker n={a.k} />
             </p>
             {a.bn?.map((text, i) => (
               <p key={i} className="ayah-bn" data-ed={i} lang="bn">

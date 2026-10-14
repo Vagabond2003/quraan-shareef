@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="site-foot">
           <div className="wrap">
             <p>
-              আরবি পাঠ: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a> (উসমানি)।
+              আরবি পাঠ: <a href="https://tanzil.net" rel="noopener">Tanzil Project</a> (উসমানি ও সহজ লিপি)।
               {quranIndex.hasBengali && ` বাংলা অনুবাদ: ${quranIndex.bnEditions.map((e) => e.name).join(" ও ")}, Tanzil-এর মাধ্যমে, অবাণিজ্যিক ব্যবহারের শর্তে।`}{" "}
               ইংরেজি অনুবাদ: Saheeh International (Tanzil-এর মাধ্যমে, অবাণিজ্যিক ব্যবহারের শর্তে) ও আবদুল্লাহ ইউসুফ আলী (১৯৩৪)। তিলাওয়াত: মিশারি রাশিদ আল-আফাসি (আরবি) ও ইব্রাহিম ওয়াক (ইংরেজি), Islamic Network CDN-এর মাধ্যমে।
             </p>

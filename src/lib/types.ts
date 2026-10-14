@@ -12,7 +12,10 @@ export type SurahMeta = {
 export type Ayah = {
   k: number;
   g: number;
+  /** Tanzil Uthmani text. */
   ar: string;
+  /** Tanzil Simple text. */
+  as: string;
   /** One entry per bundled English edition, in the order of QuranIndex.enEditions. */
   en: string[];
   /** One entry per bundled Bengali edition, in the order of QuranIndex.bnEditions. */
@@ -23,7 +26,9 @@ export type Ayah = {
   sajda?: boolean;
 };
 
-export type PageItem = { s: number; k: number; g: number; ar: string; hizbQ: number };
+export type PageItem = { s: number; k: number; g: number; ar: string; as: string; hizbQ: number };
+
+export type ArabicScript = "uthmani" | "simple";
 export type PageData = { p: number; juz: number; items: PageItem[] };
 
 export type QuranIndex = {
@@ -31,6 +36,7 @@ export type QuranIndex = {
   juz: Record<string, { page: number; s: number; k: number }>;
   pageCount: number;
   bismillah: string;
+  bismillahSimple: string;
   hasBengali: boolean;
   bnEditions: { id: string; name: string; englishName: string }[];
   enEditions: { id: string; name: string; englishName: string }[];

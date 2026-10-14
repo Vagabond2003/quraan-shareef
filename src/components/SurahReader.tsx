@@ -190,7 +190,7 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
     } else if (act === "mark") {
       flash(toggleMark(s, k) ? `আয়াত ${bnNum(k)}-এ ফিতা দেওয়া হয়েছে` : "ফিতা সরানো হয়েছে");
     } else if (act === "copy") {
-      const ar = ayah.querySelector(".ayah-ar")?.textContent?.replace(/\s*[٠-٩]+\s*$/, "").trim() ?? "";
+      const ar = arabicOf(ayah);
       const st = getSettings();
       const tr = [
         st.showBn ? ayah.querySelector(`.ayah-bn[data-ed="${st.bnEd}"]`)?.textContent : null,
@@ -330,7 +330,7 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
         k={explainK}
         count={count}
         name={name}
-        arabic={(k) => el(k)?.querySelector(".ayah-ar")?.textContent?.replace(/\s*[٠-٩]+\s*$/, "").trim() ?? ""}
+        arabic={(k) => arabicOf(el(k))}
         onNavigate={(k) => {
           setExplainK(k);
           el(k)?.scrollIntoView({ block: "center", behavior: reduce() ? "auto" : "smooth" });
@@ -344,6 +344,10 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
     </>
   );
 }
+
+/** The ayah's Arabic in the reader's chosen script, without the ayah number. */
+const arabicOf = (ayah: Element | null | undefined) =>
+  ayah?.querySelector(`.ayah-ar ${getSettings().script === "simple" ? ".ar-s" : ".ar-u"}`)?.textContent?.trim() ?? "";
 
 const enIsRecorded = () => quranIndex.enEditions[getSettings().enEd]?.id === "en.sahih";
 

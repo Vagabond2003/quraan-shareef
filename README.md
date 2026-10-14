@@ -19,7 +19,7 @@ npm run dev
 Production build (prerenders 114 surah pages and 604 mushaf pages):
 
 ```bash
-npm run build && npm run start
+npm run build   # static export to out/
 ```
 
 ## Quran data
@@ -30,7 +30,7 @@ The dataset lives in `public/data/` and `src/data/index.json` and is generated b
 node scripts/fetch-quran.mjs
 ```
 
-- **Arabic:** Tanzil Project, Uthmani text. Tanzil allows verbatim copying with attribution; the text must not be altered.
+- **Arabic:** Tanzil Project, two scripts fetched verbatim: Uthmani (`quran-uthmani`, the default) and Simple (`quran-simple`). Readers pick one under আরবি লিপি in settings; the choice is saved in `localStorage` and applied instantly. Surah pages carry both texts and CSS shows the chosen one; the mushaf renders the chosen one. Amiri Quran covers every character in both. Tanzil allows verbatim copying with attribution; the text must not be altered, so never edit or retype it by hand, only regenerate it with the script. The script checks that both editions stay in step ayah by ayah and that the Bismillah prefix is removed from the same 112 first ayahs in both (Tanzil's Uthmani writes it `بِّسْمِ` in surahs 95 and 97).
 - **English:** Saheeh International (`en.sahih`, the default) and Abdullah Yusuf Ali (`en.yusufali`, 1934); readers pick one in settings. Saheeh International comes from Tanzil on the same non-commercial, attribution-required terms as the Bengali translations. It is the text Ibrahim Walk's recorded English audio reads, so English audio uses that recording only when Saheeh International is selected; for Yusuf Ali the device's English voice reads the on-screen text. Choose editions with `--en`, e.g. `--en en.sahih,en.yusufali`.
 - **Bengali:** Muhiuddin Khan (`bn.bengali`) and Zohurul Hoque (`bn.hoque`), bundled from Tanzil via alquran.cloud. Readers pick the translator in settings. These translations are **not** public domain: Tanzil distributes them for non-commercial use with attribution, which covers this concept project. A commercial release (including ads) needs permission from the translators' publishers. To rebuild the data with them:
 

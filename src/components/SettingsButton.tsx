@@ -4,6 +4,11 @@ import { quranIndex } from "@/lib/meta";
 import { CITIES, cityForTimezone } from "@/lib/theme-script";
 import { DEFAULT_SETTINGS, KEYS, saveSettings, useStored, type Settings } from "@/lib/store";
 
+const SCRIPTS: { id: Settings["script"]; label: string; hint: string }[] = [
+  { id: "uthmani", label: "উসমানি", hint: "মাদানী মুসহাফের রসমে উসমানি" },
+  { id: "simple", label: "সহজ", hint: "প্রচলিত আরবি বানান" },
+];
+
 const THEMES: { id: Settings["theme"]; label: string; hint: string }[] = [
   { id: "auto", label: "সূর্য অনুযায়ী", hint: "সূর্যোদয়ে দিন, মাগরিবে রাত" },
   { id: "light", label: "দিন", hint: "সবসময় চীনামাটির সাদা" },
@@ -81,13 +86,29 @@ export default function SettingsButton() {
             </div>
           )}
 
+          <fieldset className="field">
+            <legend>আরবি লিপি</legend>
+            <div className="seg">
+              {SCRIPTS.map((sc) => (
+                <label key={sc.id} className="seg-opt">
+                  <input type="radio" name="script" id={`script-${sc.id}`} checked={s.script === sc.id} onChange={() => saveSettings({ script: sc.id })} />
+                  <span>
+                    <b>{sc.label}</b>
+                    <small>{sc.hint}</small>
+                  </span>
+                </label>
+              ))}
+            </div>
+            <small>দুটিই Tanzil Project-এর যাচাই করা পাঠ, হুবহু।</small>
+          </fieldset>
+
           <div className="field">
             <label htmlFor="ar-size">
               আরবি লেখার আকার <output>{Math.round(s.arScale * 100)}%</output>
             </label>
             <input id="ar-size" type="range" min="0.8" max="1.6" step="0.1" value={s.arScale} onChange={(e) => saveSettings({ arScale: +e.target.value })} />
             <p className="ar sample" lang="ar" style={{ fontSize: `calc(1.6rem * ${s.arScale})` }}>
-              {quranIndex.bismillah}
+              {s.script === "simple" ? quranIndex.bismillahSimple : quranIndex.bismillah}
             </p>
           </div>
 
