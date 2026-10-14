@@ -1,0 +1,12 @@
+{
+  "name": "কুরআন শরীফ",
+  "short_name": "কুরআন",
+  "description": "পবিত্র কুরআন আরবি, বাংলা ও ইংরেজিতে, মুসহাফের মতো পাতা উল্টে পড়ুন।",
+  "start_url": "./",
+  "display": "standalone",
+  "lang": "bn",
+  "dir": "ltr",
+  "background_color": "#f3f6fb",
+  "theme_color": "#11226e",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

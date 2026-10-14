@@ -1,0 +1,199 @@
+{
+ "schemaVersion": 2,
+ "generatedAt": "2026-10-13T20:57:39.781591+00:00",
+ "title": "Design System: Quraan Shareef · Tara",
+ "extensions": {
+  "colorMeta": {
+   "cobalt": {
+    "role": "primary",
+    "displayName": "Cobalt",
+    "canonical": "#2546b4",
+    "tonalRamp": [
+     "#0b1440",
+     "#11226e",
+     "#1a3396",
+     "#2546b4",
+     "#4a68cc",
+     "#7b92dd",
+     "#b0bfee",
+     "#e2e8fa"
+    ]
+   },
+   "deep-cobalt": {
+    "role": "primary",
+    "displayName": "Deep Cobalt",
+    "canonical": "#11226e"
+   },
+   "rose-shard": {
+    "role": "secondary",
+    "displayName": "Rose Shard",
+    "canonical": "#b4485f"
+   },
+   "celadon-shard": {
+    "role": "tertiary",
+    "displayName": "Celadon Shard",
+    "canonical": "#3f7f69"
+   },
+   "porcelain-ground": {
+    "role": "neutral",
+    "displayName": "Porcelain Ground",
+    "canonical": "#f3f6fb"
+   },
+   "unglazed-wall": {
+    "role": "neutral",
+    "displayName": "Unglazed Wall",
+    "canonical": "#ffffff"
+   },
+   "cobalt-ink": {
+    "role": "neutral",
+    "displayName": "Cobalt Ink",
+    "canonical": "#111c44"
+   }
+  },
+  "typographyMeta": {
+   "display-bengali": {
+    "displayName": "Display",
+    "purpose": "App name on the masthead tile; surah titles."
+   },
+   "quran": {
+    "displayName": "Quran",
+    "purpose": "Ayah text. Fitted per page in Mushaf mode."
+   },
+   "body-bengali": {
+    "displayName": "Bengali reading",
+    "purpose": "Bengali translation, when a licensed edition is bundled."
+   },
+   "body-english": {
+    "displayName": "English reading",
+    "purpose": "English translation."
+   },
+   "label": {
+    "displayName": "Label",
+    "purpose": "Verse references with tabular numerals."
+   }
+  },
+  "shadows": [
+   {
+    "name": "tile",
+    "value": "0 1px 2px rgba(17,28,68,.06), 0 8px 24px -8px rgba(17,28,68,.18)",
+    "purpose": "Wall tiles lifted off the porcelain ground."
+   },
+   {
+    "name": "page",
+    "value": "0 2px 4px rgba(17,28,68,.08), 0 24px 48px -16px rgba(17,28,68,.28)",
+    "purpose": "Mushaf pages."
+   }
+  ],
+  "motion": [
+   {
+    "name": "ease",
+    "value": "cubic-bezier(0.3, 0.7, 0.2, 1)",
+    "purpose": "All transitions and the page turn."
+   },
+   {
+    "name": "turn",
+    "value": "900ms",
+    "purpose": "Full page turn; crease shadow peaks at 45%."
+   },
+   {
+    "name": "ui",
+    "value": "180ms",
+    "purpose": "Colour and position changes on controls."
+   }
+  ],
+  "breakpoints": [
+   {
+    "name": "phone",
+    "value": "560px"
+   },
+   {
+    "name": "tablet",
+    "value": "860px"
+   },
+   {
+    "name": "spread",
+    "value": "900px and landscape"
+   }
+  ]
+ },
+ "components": [
+  {
+   "name": "Primary Button",
+   "kind": "button",
+   "refersTo": "button-primary",
+   "description": "Main action, e.g. next surah.",
+   "html": "<button class=\"ds-btn-p\">পরের সূরা →</button>",
+   "css": ".ds-btn-p{background:var(--cobalt,#2546b4);color:var(--paper,#fff);border:0;border-radius:6px;height:42px;padding:0 16px;font-weight:600;cursor:pointer;transition:background .18s,transform .18s}.ds-btn-p:hover{background:var(--cobalt-deep,#11226e)}.ds-btn-p:active{transform:translateY(1px)}.ds-btn-p:focus-visible{outline:2px solid var(--cobalt,#2546b4);outline-offset:3px}"
+  },
+  {
+   "name": "Secondary Button",
+   "kind": "button",
+   "refersTo": "button-secondary",
+   "description": "Mode switches and paging.",
+   "html": "<button class=\"ds-btn-s\">মুসহাফে পড়ুন</button>",
+   "css": ".ds-btn-s{background:var(--paper,#fff);color:var(--cobalt-deep,#11226e);border:1px solid var(--rule,#d5dcea);border-radius:6px;height:42px;padding:0 16px;font-weight:600;cursor:pointer;transition:border-color .18s}.ds-btn-s:hover{border-color:var(--cobalt,#2546b4)}.ds-btn-s:focus-visible{outline:2px solid var(--cobalt,#2546b4);outline-offset:3px}"
+  },
+  {
+   "name": "Jump Field",
+   "kind": "input",
+   "description": "Search that takes 2:255, page, juz or a surah name.",
+   "html": "<label class=\"ds-jump\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"m16 16 4 4\"/></svg><input placeholder=\"২:২৫৫, কাহফ, পারা ৩০\"></label>",
+   "css": ".ds-jump{display:flex;align-items:center;gap:10px;border:1px solid var(--rule,#d5dcea);border-radius:6px;padding:0 12px;background:var(--ground,#f3f6fb);color:var(--ink-3,#626d8f)}.ds-jump:focus-within{border-color:var(--cobalt,#2546b4)}.ds-jump input{border:0;background:transparent;height:46px;font:inherit;flex:1;outline:none;color:var(--ink,#111c44)}"
+  },
+  {
+   "name": "Ayah Star",
+   "kind": "custom",
+   "description": "Eight-pointed ayah marker with Arabic-Indic number.",
+   "html": "<span class=\"ds-am\"><span>٧</span></span>",
+   "css": ".ds-am{display:inline-grid;place-items:center;width:2.2em;height:2.2em;position:relative;color:var(--cobalt-deep,#11226e);font-weight:700}.ds-am:before{content:'';position:absolute;inset:0;background:rgba(37,70,180,.14);-webkit-mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 2 61 24 84 16 76 39 98 50 76 61 84 84 61 76 50 98 39 76 16 84 24 61 2 50 24 39 16 16 39 24Z'/%3E%3C/svg%3E\") center/contain no-repeat;mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 2 61 24 84 16 76 39 98 50 76 61 84 84 61 76 50 98 39 76 16 84 24 61 2 50 24 39 16 16 39 24Z'/%3E%3C/svg%3E\") center/contain no-repeat}.ds-am span{position:relative}"
+  },
+  {
+   "name": "Continue Card",
+   "kind": "card",
+   "refersTo": "continue-card",
+   "description": "Where you stopped, with the ribbon.",
+   "html": "<a class=\"ds-cont\" href=\"#\"><b>আল-কাহফ · আয়াত ১৮</b><span>পৃষ্ঠা ২৯৬ · পারা ১৫</span><em>পড়া চালিয়ে যান →</em><i></i></a>",
+   "css": ".ds-cont{position:relative;display:grid;gap:4px;padding:22px 56px 22px 24px;background:var(--paper,#fff);color:var(--ink,#111c44);text-decoration:none;border-radius:2px;box-shadow:0 1px 2px rgba(17,28,68,.06),0 8px 24px -8px rgba(17,28,68,.18);transition:transform .18s}.ds-cont:hover{transform:translateY(-2px)}.ds-cont b{font-size:1.6rem;font-weight:400}.ds-cont span{color:var(--ink-2,#4b567a);font-size:.9rem}.ds-cont em{font-style:normal;font-weight:600;color:var(--cobalt,#2546b4);margin-top:10px}.ds-cont i{position:absolute;right:22px;top:-3px;width:14px;height:44px;background:var(--rose,#b4485f);clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}"
+  },
+  {
+   "name": "Player Pill",
+   "kind": "chip",
+   "refersTo": "pill",
+   "description": "Speed and repeat toggles.",
+   "html": "<button class=\"ds-pill\">১.২৫×</button>",
+   "css": ".ds-pill{border:0;border-radius:999px;padding:6px 12px;background:rgba(37,70,180,.07);color:var(--cobalt-deep,#11226e);font-weight:600;cursor:pointer}.ds-pill:hover{background:rgba(37,70,180,.14)}"
+  }
+ ],
+ "narrative": {
+  "northStar": "The Unglazed Wall",
+  "keyCharacteristics": [
+   "Mosaic in the frame, never behind text.",
+   "Cool porcelain by day, cobalt glaze by night, switched at sunrise and Maghrib for the reader's city.",
+   "Eight-pointed tara stars as ayah markers, numbered in Arabic-Indic digits.",
+   "Bengali numerals and Bengali UI throughout; Latin only for English and verse references.",
+   "Square, tile-cut corners on walls; soft only on controls."
+  ],
+  "rules": [
+   {
+    "name": "The Unglazed Wall Rule",
+    "body": "Reading surfaces are plain wall colour. No mosaic, gradient, pattern or ad ever sits behind or beside Arabic text.",
+    "section": "colors"
+   },
+   {
+    "name": "The Glaze Rule",
+    "body": "State is a change in glaze brightness (cobalt at 10–14% over the wall), never an outline or a border.",
+    "section": "colors"
+   },
+   {
+    "name": "The Script Numerals Rule",
+    "body": "Arabic-Indic digits inside Arabic text and on mushaf pages, Bengali digits in the Bengali interface, Latin digits only in English text and verse references.",
+    "section": "typography"
+   },
+   {
+    "name": "The Two Dials Rule",
+    "body": "Arabic size and translation size are set separately by the reader (--ar-scale 0.8–1.6, --tr-scale 0.85–1.4).",
+    "section": "typography"
+   }
+  ]
+ }
+}
