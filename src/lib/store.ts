@@ -1,6 +1,7 @@
 "use client";
 import { useSyncExternalStore } from "react";
 import type { ArabicScript } from "./types";
+import type { ThemeId } from "./themes";
 
 export type LastRead = { s: number; k: number; page: number; mode: "surah" | "mushaf"; at: number };
 export type Bookmark = { s: number; k: number; at: number };
@@ -9,7 +10,10 @@ export type Track = "ar" | "bn" | "en";
 export const TRACK_ORDER: Track[] = ["ar", "bn", "en"];
 
 export type Settings = {
-  theme: "auto" | "light" | "dark" | "system";
+  /** A fixed theme, or follow the sun ("auto") or the device ("system") between `day` and `night`. */
+  theme: "auto" | "system" | ThemeId;
+  day: ThemeId;
+  night: ThemeId;
   city: string;
   /** Surah reading: whole ayahs, or word by word with each word's meaning. */
   view: "ayah" | "word";
@@ -33,6 +37,8 @@ export type Settings = {
 
 export const DEFAULT_SETTINGS: Settings = {
   theme: "auto",
+  day: "light",
+  night: "dark",
   city: "",
   view: "ayah",
   translit: true,

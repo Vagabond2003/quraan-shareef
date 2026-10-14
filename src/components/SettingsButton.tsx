@@ -3,24 +3,48 @@ import { useRef } from "react";
 import { quranIndex } from "@/lib/meta";
 import { CITIES, cityForTimezone } from "@/lib/theme-script";
 import { DEFAULT_SETTINGS, KEYS, saveSettings, useStored, type Settings } from "@/lib/store";
+import { THEMES, isTheme, type ThemeId, type ThemeInfo } from "@/lib/themes";
 
 const SCRIPTS: { id: Settings["script"]; label: string; hint: string }[] = [
   { id: "uthmani", label: "উসমানি", hint: "মাদানী মুসহাফের রসমে উসমানি" },
   { id: "simple", label: "সহজ", hint: "প্রচলিত আরবি বানান" },
 ];
 
-const THEMES: { id: Settings["theme"]; label: string; hint: string }[] = [
-  { id: "auto", label: "সূর্য অনুযায়ী", hint: "সূর্যোদয়ে দিন, মাগরিবে রাত" },
-  { id: "light", label: "দিন", hint: "সবসময় চীনামাটির সাদা" },
-  { id: "dark", label: "রাত", hint: "সবসময় কোবাল্ট নীল" },
-  { id: "system", label: "ডিভাইস", hint: "ফোনের সেটিং মেনে" },
+type Mode = "auto" | "system" | "fixed";
+const MODES: { id: Mode; label: string; hint: string }[] = [
+  { id: "auto", label: "সূর্য অনুযায়ী", hint: "সূর্যোদয়ে দিনের রঙ, মাগরিবে রাতের" },
+  { id: "system", label: "ডিভাইস", hint: "ফোনের আলো-অন্ধকার মেনে" },
+  { id: "fixed", label: "একটি রঙ", hint: "সবসময় একই রঙ" },
 ];
+const DAY_THEMES = THEMES.filter((t) => t.kind === "day");
+const NIGHT_THEMES = THEMES.filter((t) => t.kind === "night");
+
+/** A row of theme tiles, each drawn in its own colours with its accent as the tara star. */
+function ThemePicker({ name, themes, value, onPick }: { name: string; themes: ThemeInfo[]; value: ThemeId; onPick: (id: ThemeId) => void }) {
+  return (
+    <div className="themes">
+      {themes.map((t) => (
+        <label key={t.id} className="theme-opt">
+          <input type="radio" name={name} id={`${name}-${t.id}`} checked={value === t.id} onChange={() => onPick(t.id)} />
+          <span className="theme-sw" style={{ "--sw-g": t.ground, "--sw-p": t.paper, "--sw-a": t.accent } as React.CSSProperties} aria-hidden="true" />
+          <b>{t.label}</b>
+          <small>{t.hint}</small>
+        </label>
+      ))}
+    </div>
+  );
+}
 
 export default function SettingsButton() {
   const dlg = useRef<HTMLDialogElement>(null);
   const stored = useStored<Partial<Settings>>(KEYS.settings, {});
   const s = { ...DEFAULT_SETTINGS, ...stored };
   const city = s.city || cityForTimezone();
+  const mode: Mode = s.theme === "auto" || s.theme === "system" ? s.theme : "fixed";
+  const showing = (): ThemeId => {
+    const t = document.documentElement.dataset.theme;
+    return isTheme(t) ? t : "light";
+  };
 
   return (
     <>
@@ -53,24 +77,43 @@ export default function SettingsButton() {
 
           <fieldset className="field">
             <legend>রঙ</legend>
-            <div className="seg">
-              {THEMES.map((t) => (
-                <label key={t.id} className="seg-opt">
+            <div className="seg seg-3">
+              {MODES.map((m) => (
+                <label key={m.id} className="seg-opt">
                   <input
                     type="radio"
-                    name="theme"
-                    id={`theme-${t.id}`}
-                    checked={s.theme === t.id}
-                    onChange={() => saveSettings({ theme: t.id })}
+                    name="theme-mode"
+                    id={`theme-mode-${m.id}`}
+                    checked={mode === m.id}
+                    // A fixed theme starts from whatever is showing now, so choosing it never jumps.
+                    onChange={() => saveSettings({ theme: m.id === "fixed" ? showing() : m.id })}
                   />
                   <span>
-                    <b>{t.label}</b>
-                    <small>{t.hint}</small>
+                    <b>{m.label}</b>
+                    <small>{m.hint}</small>
                   </span>
                 </label>
               ))}
             </div>
           </fieldset>
+
+          {mode === "fixed" ? (
+            <fieldset className="field">
+              <legend className="visually-hidden">রঙ বেছে নিন</legend>
+              <ThemePicker name="theme" themes={THEMES} value={isTheme(s.theme) ? s.theme : "light"} onPick={(id) => saveSettings({ theme: id })} />
+            </fieldset>
+          ) : (
+            <>
+              <fieldset className="field">
+                <legend>দিনের রঙ</legend>
+                <ThemePicker name="day" themes={DAY_THEMES} value={s.day} onPick={(id) => saveSettings({ day: id })} />
+              </fieldset>
+              <fieldset className="field">
+                <legend>রাতের রঙ</legend>
+                <ThemePicker name="night" themes={NIGHT_THEMES} value={s.night} onPick={(id) => saveSettings({ night: id })} />
+              </fieldset>
+            </>
+          )}
 
           {s.theme === "auto" && (
             <div className="field">

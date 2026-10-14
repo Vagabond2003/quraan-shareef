@@ -113,7 +113,7 @@ The mushaf is treated as a real book: right-to-left spreads on wide screens, a s
 
 **Key Characteristics:**
 - Mosaic in the frame, never behind text.
-- Cool porcelain by day, cobalt glaze by night, switched at sunrise and Maghrib for the reader's city.
+- Cool porcelain by day, cobalt glaze by night by default, switched at sunrise and Maghrib for the reader's city (or by the device). Readers can pick their own day and night themes, or one fixed theme, from six sibling themes.
 - Eight-pointed tara stars as ayah markers, numbered in Arabic-Indic digits.
 - Bengali numerals and Bengali UI throughout; Latin only for English and verse references.
 - Square, tile-cut corners on walls; soft only on controls.
@@ -142,6 +142,20 @@ A restrained porcelain-and-cobalt palette with two shard accents, taken from blu
 **The Unglazed Wall Rule.** Reading surfaces are plain wall colour. No mosaic, gradient, pattern or ad ever sits behind or beside Arabic text.
 
 **The Glaze Rule.** State is a change in glaze brightness (cobalt at 10–14% over the wall), never an outline or a border.
+
+### Themes
+Every theme is the same system re-fired in a different Bengal material: one family, one accent, the same token names (`--cobalt` is "the accent" whatever its hue). Each sets the full token set in `globals.css` under `:root[data-theme="<id>"]`, including the mosaic shards (`--sh-*`), the grout and `--shade` (the rgb triplet for scrims, the page-turn crease and the spine). Metadata for the picker lives in `src/lib/themes.ts`. Every pair used for text clears 4.5:1, including button text (`--paper` on the accent).
+
+| Theme | Kind | Material | Ground / paper | Accent | Ribbon |
+|---|---|---|---|---|---|
+| চীনামাটি (`light`) | day | Star Mosque blue-and-white china | #f3f6fb / #ffffff | cobalt #2546b4 | rose #b4485f |
+| মুসহাফের পাতা (`paper`) | day | a printed mushaf's cream leaf, iron-gall ink | #efe6d2 / #faf5ea | illumination gold #8a5a10 | madder #9c3b2e |
+| পোড়ামাটি (`terracotta`) | day | Bagha Mosque carved brick | #f0e2d2 / #fbf4eb | brick #a1421d | river green #2f6b5e |
+| মোগল সবুজ (`celadon`) | day | Lalbagh green glaze on plaster | #edf3ef / #ffffff | Mughal green #1d6a4e | vermilion #a8462f |
+| কোবাল্ট রাত (`dark`) | night | cobalt glaze | #0a1230 / #0f1a3e | #8ea7ff | #eb93a6 |
+| লণ্ঠন (`lantern`) | night | true black at Isha, lamp light | #000000 / #0e0c09 | lamp gold #e0ac52 | ember #e08a7c |
+
+**The Sibling Rule.** A new theme is a material from the same world, never a skin from outside it: one accent, mosaic re-coloured from the same shard roles, contrast checked before it ships.
 
 ## Typography
 

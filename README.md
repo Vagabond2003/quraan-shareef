@@ -5,7 +5,7 @@ A Bengali-first Quran reader, built as a concept redesign of quraanshareef.org (
 - **Translation mode** (`/surah/[n]`): Arabic with translations, per-ayah recitation that highlights and follows along, repeat and speed, bookmarks (the ribbon), copy.
 - **Mushaf mode** (`/mushaf/[page]`): the 604-page Madani mushaf as a right-to-left book. Two-page spreads on wide screens, one page on phones. Drag a page, tap its edge, or use the arrow keys (← next, → previous).
 - **Home**: continue where you stopped, jump to `2:255`, `কাহফ`, `পারা ৩০` or `পৃষ্ঠা ৪২`, juz grid, surah index.
-- Day and night themes that switch at sunrise and Maghrib for your city; separate Arabic and translation text sizes; installable and readable offline.
+- Six themes (চীনামাটি, মুসহাফের পাতা, পোড়ামাটি, মোগল সবুজ by day; কোবাল্ট রাত, লণ্ঠন by night). Pick one, or let a day/night pair switch at sunrise and Maghrib for your city or follow the device; separate Arabic and translation text sizes; installable and readable offline.
 
 Design system: see [DESIGN.md](DESIGN.md). Product notes: [PRODUCT.md](PRODUCT.md).
 
