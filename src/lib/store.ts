@@ -11,6 +11,10 @@ export const TRACK_ORDER: Track[] = ["ar", "bn", "en"];
 export type Settings = {
   theme: "auto" | "light" | "dark" | "system";
   city: string;
+  /** Surah reading: whole ayahs, or word by word with each word's meaning. */
+  view: "ayah" | "word";
+  /** Show the Latin transliteration under each word in word-by-word reading. */
+  translit: boolean;
   /** Arabic script style: Tanzil Uthmani or Tanzil Simple. */
   script: ArabicScript;
   arScale: number;
@@ -30,6 +34,8 @@ export type Settings = {
 export const DEFAULT_SETTINGS: Settings = {
   theme: "auto",
   city: "",
+  view: "ayah",
+  translit: true,
   script: "uthmani",
   arScale: 1,
   trScale: 1,

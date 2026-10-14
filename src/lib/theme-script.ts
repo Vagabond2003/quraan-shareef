@@ -1,5 +1,5 @@
 // Runs in <head> before first paint, and again whenever settings change.
-// Applies theme (following sunrise and sunset for the reader's city), Arabic script, text sizes and translation toggles.
+// Applies theme (following sunrise and sunset for the reader's city), reading view, Arabic script, text sizes and translation toggles.
 export const CITIES: Record<string, { label: string; lat: number; lon: number }> = {
   dhaka: { label: "ঢাকা", lat: 23.81, lon: 90.41 },
   chattogram: { label: "চট্টগ্রাম", lat: 22.36, lon: 91.78 },
@@ -33,7 +33,7 @@ var el=document.documentElement,t=s.theme||'auto';
 if(t==='auto'){var tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){}
 var c=C[s.city]||C[T[tz]]||C.dhaka;el.setAttribute('data-theme',isDay(c.lat,c.lon)?'light':'dark');}
 else if(t==='light'||t==='dark'){el.setAttribute('data-theme',t)}else{el.removeAttribute('data-theme')}
-el.setAttribute('data-script',s.script==='simple'?'simple':'uthmani');el.style.setProperty('--ar-scale',String(s.arScale||1));el.style.setProperty('--tr-scale',String(s.trScale||1));
+el.setAttribute('data-view',s.view==='word'?'word':'ayah');el.toggleAttribute('data-hide-tr',s.translit===false);el.setAttribute('data-script',s.script==='simple'?'simple':'uthmani');el.style.setProperty('--ar-scale',String(s.arScale||1));el.style.setProperty('--tr-scale',String(s.trScale||1));
 el.toggleAttribute('data-hide-en',s.showEn===false);el.toggleAttribute('data-hide-bn',s.showBn===false);el.setAttribute('data-bn-ed',String(s.bnEd||0));el.setAttribute('data-en-ed',String(s.enEd||0));};
 window.__qsApply();})();`;
 

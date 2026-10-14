@@ -318,6 +318,27 @@ button { font: inherit; color: inherit; }
 .lang-switch button { border: 0; background: transparent; border-radius: 999px; padding: 5px 12px; font-size: 0.85rem; font-weight: 600; color: var(--ink-2); cursor: pointer; }
 .lang-switch button[lang="bn"] { font-family: var(--f-bn-ui); }
 .lang-switch button[aria-pressed="true"] { background: var(--paper); color: var(--cobalt-deep); box-shadow: 0 1px 2px rgba(17, 28, 68, 0.12); }
+
+/* Word-by-word reading. An ayah switches over only once its words have arrived, so it is never blank. */
+.view-switch { display: flex; width: max-content; margin: 0 auto 18px; }
+.view-switch button { font-family: var(--f-bn-ui); padding: 7px 18px; font-size: 0.92rem; }
+.ayah-words:empty { display: none; }
+:root[data-view="word"] .ayah:has(.ayah-words:not(:empty)) :is(.ayah-ar, .ayah-bn, .ayah-en) { display: none; }
+:root:not([data-view="word"]) .ayah-words { display: none; }
+.words { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 4px 2px; }
+.word { display: grid; justify-items: center; gap: 3px; min-width: 3.5rem; max-width: 10rem; padding: 8px 10px 10px; border: 0; border-radius: 6px; background: none; color: inherit; font: inherit; text-align: center; cursor: pointer; transition: background 0.15s; }
+.word:hover { background: var(--glaze); }
+.word:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 1px; }
+.word.sounding { background: color-mix(in srgb, var(--cobalt) 16%, var(--paper)); }
+/* Amiri Quran sets kasra and other lower marks deep; the extra line height keeps them off the transliteration. */
+.w-ar { font-family: var(--f-ar); font-size: calc(1.7rem * var(--ar-scale)); line-height: 2.3; color: var(--ink); }
+.word.sounding .w-ar { color: var(--cobalt-deep); }
+.w-tr, .w-bn, .w-en { unicode-bidi: isolate; line-height: 1.35; }
+.w-tr { font-size: calc(0.78rem * var(--tr-scale)); font-style: italic; color: var(--ink-3); }
+.w-bn { font-family: var(--f-bn); font-size: calc(0.95rem * var(--tr-scale)); color: var(--ink-2); }
+.w-en { font-size: calc(0.8rem * var(--tr-scale)); color: var(--ink-2); }
+:root[data-hide-tr] .w-tr, :root[data-hide-bn] .w-bn, :root[data-hide-en] .w-en { display: none; }
+.w-end { align-self: center; padding: 0 8px; font-family: var(--f-ar); font-size: calc(1.4rem * var(--ar-scale)); }
 .explain-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 20px 8px; }
 .explain-text { display: grid; gap: 0.9em; max-width: 62ch; font-size: calc(1.02rem * var(--tr-scale)); line-height: 1.75; color: var(--ink); }
 .explain-text[lang="bn"] { font-family: var(--f-bn); font-size: calc(1.1rem * var(--tr-scale)); line-height: 1.85; }

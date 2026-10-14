@@ -29,6 +29,10 @@ export type Ayah = {
 export type PageItem = { s: number; k: number; g: number; ar: string; as: string; hizbQ: number };
 
 export type ArabicScript = "uthmani" | "simple";
+
+/** One word from Quran.com: Uthmani, Imlaei (simple), Bengali meaning, English meaning, transliteration. */
+export type WbwWord = [uthmani: string, simple: string, bn: string, en: string, translit: string];
+export type WbwSurah = { n: number; ayahs: WbwWord[][] };
 export type PageData = { p: number; juz: number; items: PageItem[] };
 
 export type QuranIndex = {

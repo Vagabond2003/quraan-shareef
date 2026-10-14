@@ -120,6 +120,8 @@ async function Surah({ params }: { params: Promise<{ n: string }> }) {
             <p className="ayah-ar ar" lang="ar" dir="rtl">
               <DualScript uthmani={a.ar} simple={a.as} />&nbsp;<AyahMarker n={a.k} />
             </p>
+            {/* Filled on the client in word-by-word reading. */}
+            <div className="ayah-words" data-k={a.k} />
             {a.bn?.map((text, i) => (
               <p key={i} className="ayah-bn" data-ed={i} lang="bn">
                 {text}

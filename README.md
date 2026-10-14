@@ -41,6 +41,14 @@ node scripts/fetch-quran.mjs
   Running the script without `--bn` produces an Arabic + English dataset, and the app hides the Bengali options.
 - **Recitation:** Arabic by Mishary Rashid Alafasy and English by Ibrahim Walk, streamed per ayah from the Islamic Network CDN. Check its terms before caching audio for offline use. Bengali is read by the device's Bengali voice where one is installed.
 
+### Word by word (শব্দে শব্দে)
+
+Each surah page has an আয়াত | শব্দে শব্দে switch (remembered like other settings). In word view every word shows its Arabic (following the Uthmani / Simple setting), a Latin transliteration (toggle: উচ্চারণ in settings), and its Bengali and English meanings (following the translation toggles); tapping a word plays its recording.
+
+- **Data:** `node scripts/fetch-wbw.mjs` writes `public/data/wbw/<surah>.json` (committed, about 7 MB, 77,429 words) from the Quran.com API v4, verbatim: Uthmani and Imlaei word text, Bengali and English word meanings, transliteration. The script checks ayah order, word positions and languages against the Quran index. A surah's file is fetched only when a reader switches to word view.
+- **Audio:** word recordings stream from Quran.com's CDN (`audio.qurancdn.com/wbw/…`).
+- Word text follows Quran.com's own encoding, so it can differ in small spelling details from the Tanzil text used in ayah view. Check Quran.com's terms before any commercial use.
+
 ### Ayah explanations (ব্যাখ্যা)
 
 Every ayah has an explain button that opens recognised tafsir, not AI-generated text:

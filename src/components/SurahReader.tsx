@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS, KEYS, TRACK_ORDER, getSettings, saveSettings, setLast
 import { RECORDED, Recitation } from "@/lib/recitation";
 import { quranIndex } from "@/lib/meta";
 import ExplainSheet from "./ExplainSheet";
+import WordByWord, { stopWord } from "./WordByWord";
 import { prefetchTafsir, TAFSIR } from "@/lib/tafsir";
 import { bnNum } from "@/lib/num";
 import { BASE } from "@/lib/base";
@@ -160,11 +161,15 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
     return () => window.clearTimeout(t);
   }, []);
 
-  const playAyah = (k: number) => engine.current?.play(k);
+  const playAyah = (k: number) => {
+    stopWord();
+    engine.current?.play(k);
+  };
 
   const toggle = () => {
     const r = engine.current;
     if (!r) return;
+    stopWord();
     if (!r.current) return r.play(1);
     if (playing) r.pause();
     else r.resume();
@@ -227,6 +232,28 @@ export default function SurahReader({ s, count, firstGlobal, name, children }: P
 
   return (
     <>
+      <div className="lang-switch view-switch" role="group" aria-label="পড়ার ধরন">
+        <button type="button" aria-pressed={st.view === "ayah"} onClick={() => saveSettings({ view: "ayah" })}>
+          আয়াত
+        </button>
+        <button type="button" aria-pressed={st.view === "word"} onClick={() => saveSettings({ view: "word" })}>
+          শব্দে শব্দে
+        </button>
+      </div>
+
+      {st.view === "word" && (
+        <WordByWord
+          key={s}
+          s={s}
+          box={box}
+          simple={st.script === "simple"}
+          onWordPlay={() => {
+            if (playing) engine.current?.pause();
+          }}
+          onError={flash}
+        />
+      )}
+
       <div ref={box} className="ayahs" onClick={onClick} onPointerOver={warmExplain} onFocus={warmExplain}>
         {children}
       </div>

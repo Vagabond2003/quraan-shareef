@@ -166,6 +166,13 @@ export default function SettingsButton() {
               <input type="checkbox" id="show-en" checked={s.showEn} onChange={(e) => saveSettings({ showEn: e.target.checked })} />
               <span>English</span>
             </label>
+            <label className="check">
+              <input type="checkbox" id="show-translit" checked={s.translit} onChange={(e) => saveSettings({ translit: e.target.checked })} />
+              <span>
+                উচ্চারণ
+                <small>শব্দে শব্দে পড়ার সময় প্রতিটি শব্দের ল্যাটিন উচ্চারণ</small>
+              </span>
+            </label>
           </fieldset>
         </div>
       </dialog>
